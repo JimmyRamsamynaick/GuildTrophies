@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, ChannelType } = require('discord.js');
 const cron = require('node-cron');
 const config = require('./config');
 const { initDatabase } = require('./database/db');
@@ -54,6 +54,18 @@ for (const file of eventFiles) {
 cron.schedule('* * * * *', async () => {
   console.log('Running periodic check...');
   client.guilds.cache.forEach(async (guild) => {
+    try {
+      guild.channels.cache.forEach((channel) => {
+        if (channel.type === ChannelType.GuildVoice || channel.type === ChannelType.GuildStageVoice) {
+          channel.members.forEach((member) => {
+            if (member.user.bot) return;
+            StatsService.addVoiceTime(member.id, guild.id, 60);
+          });
+        }
+      });
+    } catch (e) {
+      console.error('Voice accrual error:', e);
+    }
     const currentPeriod = StatsService.getPeriodKey(guild.id);
     const lastProcessed = ConfigService.getLastProcessedPeriod(guild.id);
 

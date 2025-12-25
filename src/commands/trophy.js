@@ -93,8 +93,7 @@ module.exports = {
         title: `🏆 Profil de ${user.username}`,
         fields: [
           { name: '📊 Stats de la période', value: `Messages: ${stats.messages}\nVocal: ${Math.floor(stats.voiceSeconds / 60)} min\nRéactions: ${stats.reactions}`, inline: false },
-          { name: '🏅 Trophées', value: summary, inline: false },
-          { name: '📜 Liste complète', value: trophies.length ? (trophies.length > 20 ? trophies.slice(0, 20).map(t => `**${t.name}** (${t.rarity})`).join('\n') + `\n... et ${trophies.length - 20} autres` : trophies.map(t => `**${t.name}** (${t.rarity})`).join('\n')) : 'Aucun trophée pour le moment.' }
+          { name: '🏅 Trophées', value: summary, inline: false }
         ],
         thumbnail: { url: thumbnailUrl }
       };
