@@ -83,19 +83,10 @@ module.exports = {
         }
       });
 
-      const summary = `🥉 Bronze: ${counts['Bronze']} | 🥈 Argent: ${counts['Argent']} | 🥇 Or: ${counts['Or']} | 💎 Platine: ${counts['Platine']}`;
+      const config = require('../config');
+      const summary = `${config.rarityEmojis.BRONZE} Bronze: ${counts['Bronze']} | ${config.rarityEmojis.SILVER} Argent: ${counts['Argent']} | ${config.rarityEmojis.GOLD} Or: ${counts['Or']} | ${config.rarityEmojis.PLATINUM} Platine: ${counts['Platine']}`;
 
-      let files = [];
-      let thumbnailUrl = user.displayAvatarURL();
-      
-      if (highestRarity) {
-          const imageName = `trophy ${highestRarity.toLowerCase()}.png`;
-          const imagePath = require('path').join(__dirname, '../../img', imageName);
-          if (require('fs').existsSync(imagePath)) {
-              files.push(imagePath);
-              thumbnailUrl = `attachment://${imageName}`;
-          }
-      }
+      let thumbnailUrl = user.displayAvatarURL({ size: 128 });
 
       const embed = {
         color: 0xFFD700,
@@ -108,7 +99,7 @@ module.exports = {
         thumbnail: { url: thumbnailUrl }
       };
 
-      await interaction.reply({ embeds: [embed], files: files });
+      await interaction.reply({ embeds: [embed] });
 
     } else if (subcommand === 'leaderboard') {
       const leaderboard = TrophyService.getLeaderboard(guildId);
