@@ -7,7 +7,7 @@ module.exports = {
     console.log(`Ready! Logged in as ${client.user.tag}`);
     client.user.setPresence({
       activities: [{
-        name: 'Regarde ton profil pour obtenir des trophées',
+        name: 'Regarde ton profil pour obtenir des trophées — Débloque des trophées avec messages, réactions et vocal',
         type: ActivityType.Streaming,
         url: 'https://twitch.tv/jimmy_9708'
       }],
